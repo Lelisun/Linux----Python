@@ -1,10 +1,19 @@
+# Задание.
 # Добавить в проект тесты, проверяющие работу команд
 # d (удаление из архива) и u (обновление архива). Вынести
 # в отдельные переменные пути к папкам с файлами, с архивом
 # и с распакованными файлами. Выполнить тесты с ключом -v.
+
 # Дополнить проект тестами, проверяющими команды вывода списка файлов (l) и разархивирования с путями (x).
 
+# Доработать позитивные тесты таким образом, чтобы при
+# архивации дополнительно проверялось создание файла
+# архива, а при распаковке проверялось создание файлов.
+
+
+
 import subprocess
+
 
 folder_in = '/home/user/seminar/tst'
 folder_out = '/home/user/seminar/out'
@@ -21,7 +30,7 @@ def checkout(cmd, text):
     else:
         return False
 
-print(checkout(f'cd {folder_in}; 7z a {folder_out}/arh1', 'Everything is Ok'))
+# print(checkout(f'cd {folder_in}; 7z a {folder_out}/arh1', 'Everything is Ok'))
 
 
 def test_step1():
@@ -40,6 +49,22 @@ def test_step4():
     assert checkout(f'cd {folder_out}; 7z l arh1.7z', 'test1.txt'), 'test4 FAIL'
 
 
+def test_step4_1():
+    assert checkout(f'cd {folder_out}; 7z l arh1.7z', 'test2.txt'), 'test4_1 FAIL'
+
+
 def test_step5():
     assert checkout(f'cd {folder_out}; 7z x arh1.7z -o{folder_ext} -y', 'Everything is Ok'), 'test5 FAIL'
+
+
+def test_step6():
+    assert checkout(f'cd {folder_out}; 7z l {folder_out}', 'arh1'), 'test6 FAIL'
+
+
+def test_step7():
+    assert checkout(f'ls {folder_ext};', 'test1.txt'), 'test7 FAIL'
+
+
+def test_step8():
+    assert checkout(f'ls {folder_ext};', 'test2.txt'), 'test8 FAIL'
 
